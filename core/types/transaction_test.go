@@ -24,13 +24,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/AresDream/go-ethereum/common"
+	"github.com/AresDream/go-ethereum/crypto"
+	"github.com/AresDream/go-ethereum/rlp"
 )
 
 // The values in those tests are from the Transaction Tests
-// at github.com/ethereum/tests.
+// at github.com/AresDream/tests.
 var (
 	emptyTx = NewTransaction(
 		0,

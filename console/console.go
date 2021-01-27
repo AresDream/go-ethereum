@@ -28,12 +28,12 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/AresDream/go-ethereum/console/prompt"
+	"github.com/AresDream/go-ethereum/internal/jsre"
+	"github.com/AresDream/go-ethereum/internal/jsre/deps"
+	"github.com/AresDream/go-ethereum/internal/web3ext"
+	"github.com/AresDream/go-ethereum/rpc"
 	"github.com/dop251/goja"
-	"github.com/ethereum/go-ethereum/console/prompt"
-	"github.com/ethereum/go-ethereum/internal/jsre"
-	"github.com/ethereum/go-ethereum/internal/jsre/deps"
-	"github.com/ethereum/go-ethereum/internal/web3ext"
-	"github.com/ethereum/go-ethereum/rpc"
 	"github.com/mattn/go-colorable"
 	"github.com/peterh/liner"
 )

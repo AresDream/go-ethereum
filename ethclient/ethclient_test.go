@@ -25,16 +25,16 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/AresDream/go-ethereum"
+	"github.com/AresDream/go-ethereum/common"
+	"github.com/AresDream/go-ethereum/consensus/ethash"
+	"github.com/AresDream/go-ethereum/core"
+	"github.com/AresDream/go-ethereum/core/rawdb"
+	"github.com/AresDream/go-ethereum/core/types"
+	"github.com/AresDream/go-ethereum/crypto"
+	"github.com/AresDream/go-ethereum/eth"
+	"github.com/AresDream/go-ethereum/node"
+	"github.com/AresDream/go-ethereum/params"
 )
 
 // Verify that Client implements the ethereum interfaces.

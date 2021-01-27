@@ -21,13 +21,13 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/AresDream/go-ethereum/common"
+	"github.com/AresDream/go-ethereum/consensus/ethash"
+	"github.com/AresDream/go-ethereum/core/rawdb"
+	"github.com/AresDream/go-ethereum/core/vm"
+	"github.com/AresDream/go-ethereum/ethdb"
+	"github.com/AresDream/go-ethereum/params"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/params"
 )
 
 func TestDefaultGenesisBlock(t *testing.T) {

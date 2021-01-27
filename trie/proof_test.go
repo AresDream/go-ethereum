@@ -25,9 +25,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/ethdb/memorydb"
+	"github.com/AresDream/go-ethereum/common"
+	"github.com/AresDream/go-ethereum/crypto"
+	"github.com/AresDream/go-ethereum/ethdb/memorydb"
 )
 
 func init() {

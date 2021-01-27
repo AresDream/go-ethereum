@@ -22,13 +22,13 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/AresDream/go-ethereum/common"
+	"github.com/AresDream/go-ethereum/consensus/ethash"
+	"github.com/AresDream/go-ethereum/core"
+	"github.com/AresDream/go-ethereum/core/rawdb"
+	"github.com/AresDream/go-ethereum/core/types"
+	"github.com/AresDream/go-ethereum/ethdb"
+	"github.com/AresDream/go-ethereum/params"
 )
 
 // So we can deterministically seed different blockchains

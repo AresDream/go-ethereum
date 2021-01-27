@@ -24,12 +24,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/miner"
-	"github.com/ethereum/go-ethereum/node"
+	"github.com/AresDream/go-ethereum/common"
+	"github.com/AresDream/go-ethereum/consensus/ethash"
+	"github.com/AresDream/go-ethereum/core"
+	"github.com/AresDream/go-ethereum/eth"
+	"github.com/AresDream/go-ethereum/miner"
+	"github.com/AresDream/go-ethereum/node"
 	"github.com/stretchr/testify/assert"
 )
 

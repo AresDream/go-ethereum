@@ -25,16 +25,16 @@ import (
 	"os"
 	"reflect"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/accounts/keystore"
-	"github.com/ethereum/go-ethereum/accounts/scwallet"
-	"github.com/ethereum/go-ethereum/accounts/usbwallet"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/internal/ethapi"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/signer/storage"
+	"github.com/AresDream/go-ethereum/accounts"
+	"github.com/AresDream/go-ethereum/accounts/keystore"
+	"github.com/AresDream/go-ethereum/accounts/scwallet"
+	"github.com/AresDream/go-ethereum/accounts/usbwallet"
+	"github.com/AresDream/go-ethereum/common"
+	"github.com/AresDream/go-ethereum/common/hexutil"
+	"github.com/AresDream/go-ethereum/internal/ethapi"
+	"github.com/AresDream/go-ethereum/log"
+	"github.com/AresDream/go-ethereum/rlp"
+	"github.com/AresDream/go-ethereum/signer/storage"
 )
 
 const (

@@ -28,10 +28,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/AresDream/go-ethereum/consensus/ethash"
+	"github.com/AresDream/go-ethereum/core/rawdb"
+	"github.com/AresDream/go-ethereum/core/vm"
+	"github.com/AresDream/go-ethereum/params"
 )
 
 // snapshotTest is a test case for snapshot recovery. It can be used for

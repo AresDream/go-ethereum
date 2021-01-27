@@ -19,15 +19,15 @@ package main
 import (
 	"strconv"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/accounts/external"
-	"github.com/ethereum/go-ethereum/cmd/utils"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/contracts/checkpointoracle"
-	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/AresDream/go-ethereum/accounts"
+	"github.com/AresDream/go-ethereum/accounts/abi/bind"
+	"github.com/AresDream/go-ethereum/accounts/external"
+	"github.com/AresDream/go-ethereum/cmd/utils"
+	"github.com/AresDream/go-ethereum/common"
+	"github.com/AresDream/go-ethereum/contracts/checkpointoracle"
+	"github.com/AresDream/go-ethereum/ethclient"
+	"github.com/AresDream/go-ethereum/params"
+	"github.com/AresDream/go-ethereum/rpc"
 	"gopkg.in/urfave/cli.v1"
 )
 

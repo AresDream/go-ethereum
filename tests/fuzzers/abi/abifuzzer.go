@@ -23,8 +23,8 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/ethereum/go-ethereum/accounts/abi"
-	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/AresDream/go-ethereum/accounts/abi"
+	"github.com/AresDream/go-ethereum/crypto"
 	fuzz "github.com/google/gofuzz"
 )
 

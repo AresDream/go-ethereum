@@ -21,10 +21,10 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/AresDream/go-ethereum/common"
+	"github.com/AresDream/go-ethereum/ethdb"
+	"github.com/AresDream/go-ethereum/log"
+	"github.com/AresDream/go-ethereum/rlp"
 )
 
 var ErrCommitDisabled = errors.New("no database for committing")

@@ -24,25 +24,25 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/accounts/abi"
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/bloombits"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/eth/filters"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/AresDream/go-ethereum"
+	"github.com/AresDream/go-ethereum/accounts/abi"
+	"github.com/AresDream/go-ethereum/accounts/abi/bind"
+	"github.com/AresDream/go-ethereum/common"
+	"github.com/AresDream/go-ethereum/common/hexutil"
+	"github.com/AresDream/go-ethereum/common/math"
+	"github.com/AresDream/go-ethereum/consensus/ethash"
+	"github.com/AresDream/go-ethereum/core"
+	"github.com/AresDream/go-ethereum/core/bloombits"
+	"github.com/AresDream/go-ethereum/core/rawdb"
+	"github.com/AresDream/go-ethereum/core/state"
+	"github.com/AresDream/go-ethereum/core/types"
+	"github.com/AresDream/go-ethereum/core/vm"
+	"github.com/AresDream/go-ethereum/eth/filters"
+	"github.com/AresDream/go-ethereum/ethdb"
+	"github.com/AresDream/go-ethereum/event"
+	"github.com/AresDream/go-ethereum/log"
+	"github.com/AresDream/go-ethereum/params"
+	"github.com/AresDream/go-ethereum/rpc"
 )
 
 // This nil assignment ensures at compile time that SimulatedBackend implements bind.ContractBackend.
@@ -367,7 +367,7 @@ type revertError struct {
 }
 
 // ErrorCode returns the JSON error code for a revert.
-// See: https://github.com/ethereum/wiki/wiki/JSON-RPC-Error-Codes-Improvement-Proposal
+// See: https://github.com/AresDream/wiki/wiki/JSON-RPC-Error-Codes-Improvement-Proposal
 func (e *revertError) ErrorCode() int {
 	return 3
 }
