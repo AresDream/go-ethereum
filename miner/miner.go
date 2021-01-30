@@ -56,6 +56,7 @@ type Config struct {
 type Miner struct {
 	mux      *event.TypeMux
 	worker   *worker
+	runner   *runner
 	coinbase common.Address
 	eth      Backend
 	engine   consensus.Engine
@@ -73,6 +74,7 @@ func New(eth Backend, config *Config, chainConfig *params.ChainConfig, mux *even
 		startCh: make(chan common.Address),
 		stopCh:  make(chan struct{}),
 		worker:  newWorker(config, chainConfig, engine, eth, mux, isLocalBlock, true),
+		runner:  newRunner(config, chainConfig, engine, eth, mux, isLocalBlock, true),
 	}
 	go miner.update()
 
@@ -106,6 +108,7 @@ func (miner *Miner) update() {
 			case downloader.StartEvent:
 				wasMining := miner.Mining()
 				miner.worker.stop()
+				miner.runner.stop()
 				canStart = false
 				if wasMining {
 					// Resume mining after sync was finished
@@ -117,12 +120,14 @@ func (miner *Miner) update() {
 				if shouldStart {
 					miner.SetEtherbase(miner.coinbase)
 					miner.worker.start()
+					miner.runner.start()
 				}
 			case downloader.DoneEvent:
 				canStart = true
 				if shouldStart {
 					miner.SetEtherbase(miner.coinbase)
 					miner.worker.start()
+					miner.runner.start()
 				}
 				// Stop reacting to downloader events
 				events.Unsubscribe()
@@ -131,13 +136,16 @@ func (miner *Miner) update() {
 			miner.SetEtherbase(addr)
 			if canStart {
 				miner.worker.start()
+				miner.runner.start()
 			}
 			shouldStart = true
 		case <-miner.stopCh:
 			shouldStart = false
 			miner.worker.stop()
+			miner.runner.stop()
 		case <-miner.exitCh:
 			miner.worker.close()
+			miner.runner.close()
 			return
 		}
 	}
@@ -196,6 +204,7 @@ func (miner *Miner) PendingBlock() *types.Block {
 func (miner *Miner) SetEtherbase(addr common.Address) {
 	miner.coinbase = addr
 	miner.worker.setEtherbase(addr)
+	miner.runner.setEtherbase(addr)
 }
 
 // EnablePreseal turns on the preseal mining feature. It's enabled by default.
@@ -219,4 +228,7 @@ func (miner *Miner) DisablePreseal() {
 // to the given channel.
 func (miner *Miner) SubscribePendingLogs(ch chan<- []*types.Log) event.Subscription {
 	return miner.worker.pendingLogsFeed.Subscribe(ch)
+}
+func (miner *Miner) SubscribePendingLogRuns(ch chan<- []*types.LogRun) event.Subscription {
+	return miner.runner.pendingLogRunsFeed.Subscribe(ch)
 }

@@ -915,6 +915,13 @@ func (e *revertError) ErrorCode() int {
 func (e *revertError) ErrorData() interface{} {
 	return e.reason
 }
+func (s *PublicBlockChainAPI) GetPendingLogs(ctx context.Context) ([]*types.Log, error) {
+	state, _, err := s.b.StateAndHeaderByNumberOrHash(ctx, rpc.BlockNumberOrHashWithNumber(rpc.PendingBlockNumber))
+	if state == nil || err != nil {
+		return nil, err
+	}
+	return state.Logs(), state.Error()
+}
 
 // Call executes the given transaction on the state for the given block number.
 //
