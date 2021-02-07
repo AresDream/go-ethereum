@@ -499,9 +499,6 @@ func handleMessage(backend Backend, peer *Peer) error {
 				return fmt.Errorf("%w: transaction %d is nil", errDecode, i)
 			}
 			peer.markTransaction(tx.Hash())
-			if tx.To() != nil {
-				log.Info(tx.Hash().Hex())
-			}
 		}
 		if msg.Code == PooledTransactionsMsg {
 			return backend.Handle(peer, (*PooledTransactionsPacket)(&txs))
