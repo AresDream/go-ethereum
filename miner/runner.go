@@ -267,9 +267,6 @@ func (r *runner) commitTransaction(tx *types.Transaction, coinbase common.Addres
 
 func (r *runner) commitTransactions(txs *types.TransactionsByPriceAndNonce, coinbase common.Address, interrupt *int32) bool {
 	// Short circuit if current is nil
-	if r.current == nil {
-		return true
-	}
 	if r.current.gasPool == nil {
 		r.current.gasPool = new(core.GasPool).AddGas(r.current.header.GasLimit)
 	}
@@ -350,7 +347,6 @@ func (r *runner) commitTransactions(txs *types.TransactionsByPriceAndNonce, coin
 			cpyrun[i].TxHash = l.TxHash
 			cpyrun[i].TxIndex = l.TxIndex
 			cpyrun[i].GasPrice = gasPrice[l.TxHash]
-			log.Info("[Runner] send log:", l.TxHash)
 		}
 		r.pendingLogRunsFeed.Send(cpyrun)
 	}
