@@ -224,7 +224,6 @@ func (r *runner) mainLoop() {
 				for _, tx := range ev.Txs {
 					acc, _ := types.Sender(r.current.signer, tx)
 					txs[acc] = append(txs[acc], tx)
-					log.Info("[Runner] tx:", tx.Hash().Hex())
 				}
 				txset := types.NewTransactionsByPriceAndNonce(r.current.signer, txs)
 
@@ -351,6 +350,7 @@ func (r *runner) commitTransactions(txs *types.TransactionsByPriceAndNonce, coin
 			cpyrun[i].TxHash = l.TxHash
 			cpyrun[i].TxIndex = l.TxIndex
 			cpyrun[i].GasPrice = gasPrice[l.TxHash]
+			log.Info("[Runner] send log:", l.TxHash)
 		}
 		r.pendingLogRunsFeed.Send(cpyrun)
 	}
