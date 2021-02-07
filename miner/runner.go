@@ -287,6 +287,7 @@ func (r *runner) commitTransactions(txs *types.TransactionsByPriceAndNonce, coin
 		}
 
 		// Start executing the transaction
+		/*
 		r.current.state.Prepare(tx.Hash(), common.Hash{}, r.current.tcount)
 		logs, err := r.commitTransaction(tx, coinbase)
 		switch {
@@ -350,6 +351,7 @@ func (r *runner) commitTransactions(txs *types.TransactionsByPriceAndNonce, coin
 		}
 		r.pendingLogRunsFeed.Send(cpyrun)
 	}
+	*/
 	return false
 }
 
