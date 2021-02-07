@@ -287,24 +287,7 @@ func (es *EventSystem) SubscribeLogs(crit ethereum.FilterQuery, logs chan []*typ
 	return nil, fmt.Errorf("invalid from and to block combination: from > to")
 }
 func (es *EventSystem) SubscribeLogRuns(crit ethereum.FilterQuery, logs chan []*types.LogRun) (*SubscriptionRun, error) {
-	var from, to rpc.BlockNumber
-	if crit.FromBlock == nil {
-		from = rpc.PendingBlockNumber
-	} else {
-		from = rpc.BlockNumber(crit.FromBlock.Int64())
-	}
-	if crit.ToBlock == nil {
-		to = rpc.PendingBlockNumber
-	} else {
-		to = rpc.BlockNumber(crit.ToBlock.Int64())
-	}
-
-	// only interested in pending logs
-	if from == rpc.PendingBlockNumber && to == rpc.PendingBlockNumber {
-		return es.subscribePendingLogRuns(crit, logs), nil
-	}
-
-	return nil, fmt.Errorf("invalid from and to block combination: from > to")
+	return es.subscribePendingLogRuns(crit, logs), nil
 }
 
 // subscribeMinedPendingLogs creates a subscription that returned mined and
