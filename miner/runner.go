@@ -266,91 +266,92 @@ func (r *runner) commitTransaction(tx *types.Transaction, coinbase common.Addres
 }
 
 func (r *runner) commitTransactions(txs *types.TransactionsByPriceAndNonce, coinbase common.Address, interrupt *int32) bool {
-	// Short circuit if current is nil
-	if r.current.gasPool == nil {
-		r.current.gasPool = new(core.GasPool).AddGas(r.current.header.GasLimit)
-	}
-
-	var coalescedLogs []*types.Log
-	gasPrice := make(map[common.Hash]*big.Int)
-	for {
-		// If we don't have enough gas for any further transactions then we're done
-		//if r.current.gasPool.Gas() < params.TxGas {
-		//	log.Trace("Not enough gas for further transactions", "have", r.current.gasPool, "want", params.TxGas)
-		//	break
-		//}
-		// Retrieve the next transaction and abort if all done
-		tx := txs.Peek()
-		//log.Info("tx:",tx)
-		if tx == nil {
-			break
+	/*
+		// Short circuit if current is nil
+		if r.current.gasPool == nil {
+			r.current.gasPool = new(core.GasPool).AddGas(r.current.header.GasLimit)
 		}
 
-		// Start executing the transaction
-		/*
-		r.current.state.Prepare(tx.Hash(), common.Hash{}, r.current.tcount)
-		logs, err := r.commitTransaction(tx, coinbase)
-		switch {
-		//case errors.Is(err, core.ErrGasLimitReached):
-		// Pop the current out-of-gas transaction without shifting in the next from the account
-		//	log.Trace("Gas limit exceeded for current block", "sender", from)
-		//	txs.Pop()
+		var coalescedLogs []*types.Log
+		gasPrice := make(map[common.Hash]*big.Int)
+		for {
+			// If we don't have enough gas for any further transactions then we're done
+			//if r.current.gasPool.Gas() < params.TxGas {
+			//	log.Trace("Not enough gas for further transactions", "have", r.current.gasPool, "want", params.TxGas)
+			//	break
+			//}
+			// Retrieve the next transaction and abort if all done
+			tx := txs.Peek()
+			//log.Info("tx:",tx)
+			if tx == nil {
+				break
+			}
 
-		//case errors.Is(err, core.ErrNonceTooLow):
-		// New head notification data race between the transaction pool and miner, shift
-		//	log.Trace("Skipping transaction with low nonce", "sender", from, "nonce", tx.Nonce())
-		//	txs.Shift()
+			// Start executing the transaction
 
-		//case errors.Is(err, core.ErrNonceTooHigh):
-		// Reorg notification data race between the transaction pool and miner, skip account =
-		//	log.Trace("Skipping account with hight nonce", "sender", from, "nonce", tx.Nonce())
-		//	txs.Pop()
+			r.current.state.Prepare(tx.Hash(), common.Hash{}, r.current.tcount)
+			logs, err := r.commitTransaction(tx, coinbase)
+			switch {
+			//case errors.Is(err, core.ErrGasLimitReached):
+			// Pop the current out-of-gas transaction without shifting in the next from the account
+			//	log.Trace("Gas limit exceeded for current block", "sender", from)
+			//	txs.Pop()
 
-		//case errors.Is(err, nil):
-		// Everything ok, collect the logs and shift in the next transaction from the same account
-		//	coalescedLogs = append(coalescedLogs, logs...)
-		//	r.current.tcount++
-		//	gasPrice[tx.Hash()] = tx.GasPrice()
-		//	txs.Shift()
+			//case errors.Is(err, core.ErrNonceTooLow):
+			// New head notification data race between the transaction pool and miner, shift
+			//	log.Trace("Skipping transaction with low nonce", "sender", from, "nonce", tx.Nonce())
+			//	txs.Shift()
 
-		default:
-			// Strange error, discard the transaction and get the next in line (note, the
-			// nonce-too-high clause will prevent us from executing in vain).
-			//coalescedLogs = append(coalescedLogs, logs...)
-			//r.current.tcount++
-			coalescedLogs = append(coalescedLogs, logs...)
-			r.current.tcount++
-			gasPrice[tx.Hash()] = tx.GasPrice()
-			log.Debug("Transaction failed, account skipped", "hash", tx.Hash(), "err", err)
-			//gasPrice[tx.Hash()] = tx.GasPrice()
-			txs.Shift()
+			//case errors.Is(err, core.ErrNonceTooHigh):
+			// Reorg notification data race between the transaction pool and miner, skip account =
+			//	log.Trace("Skipping account with hight nonce", "sender", from, "nonce", tx.Nonce())
+			//	txs.Pop()
+
+			//case errors.Is(err, nil):
+			// Everything ok, collect the logs and shift in the next transaction from the same account
+			//	coalescedLogs = append(coalescedLogs, logs...)
+			//	r.current.tcount++
+			//	gasPrice[tx.Hash()] = tx.GasPrice()
+			//	txs.Shift()
+
+			default:
+				// Strange error, discard the transaction and get the next in line (note, the
+				// nonce-too-high clause will prevent us from executing in vain).
+				//coalescedLogs = append(coalescedLogs, logs...)
+				//r.current.tcount++
+				coalescedLogs = append(coalescedLogs, logs...)
+				r.current.tcount++
+				gasPrice[tx.Hash()] = tx.GasPrice()
+				log.Debug("Transaction failed, account skipped", "hash", tx.Hash(), "err", err)
+				//gasPrice[tx.Hash()] = tx.GasPrice()
+				txs.Shift()
+			}
 		}
-	}
 
-	if len(coalescedLogs) > 0 {
-		// We don't push the pendingLogsEvent while we are mining. The reason is that
-		// when we are mining, the runner will regenerate a mining block every 3 seconds.
-		// In order to avoid pushing the repeated pendingLog, we disable the pending log pushing.
+		if len(coalescedLogs) > 0 {
+			// We don't push the pendingLogsEvent while we are mining. The reason is that
+			// when we are mining, the runner will regenerate a mining block every 3 seconds.
+			// In order to avoid pushing the repeated pendingLog, we disable the pending log pushing.
 
-		// make a copy, the state caches the logs and these logs get "upgraded" from pending to mined
-		// logs by filling in the block hash when the block was mined by the local miner. This can
-		// cause a race condition if a log was "upgraded" before the PendingLogsEvent is processed.
-		cpyrun := make([]*types.LogRun, len(coalescedLogs))
-		for i, l := range coalescedLogs {
-			cpyrun[i] = new(types.LogRun)
-			cpyrun[i].Address = l.Address
-			cpyrun[i].BlockHash = l.BlockHash
-			cpyrun[i].BlockNumber = l.BlockNumber
-			cpyrun[i].Data = append([]byte(nil), l.Data...)
-			cpyrun[i].Index = l.Index
-			cpyrun[i].Removed = l.Removed
-			cpyrun[i].Topics = l.Topics
-			cpyrun[i].TxHash = l.TxHash
-			cpyrun[i].TxIndex = l.TxIndex
-			cpyrun[i].GasPrice = gasPrice[l.TxHash]
+			// make a copy, the state caches the logs and these logs get "upgraded" from pending to mined
+			// logs by filling in the block hash when the block was mined by the local miner. This can
+			// cause a race condition if a log was "upgraded" before the PendingLogsEvent is processed.
+			cpyrun := make([]*types.LogRun, len(coalescedLogs))
+			for i, l := range coalescedLogs {
+				cpyrun[i] = new(types.LogRun)
+				cpyrun[i].Address = l.Address
+				cpyrun[i].BlockHash = l.BlockHash
+				cpyrun[i].BlockNumber = l.BlockNumber
+				cpyrun[i].Data = append([]byte(nil), l.Data...)
+				cpyrun[i].Index = l.Index
+				cpyrun[i].Removed = l.Removed
+				cpyrun[i].Topics = l.Topics
+				cpyrun[i].TxHash = l.TxHash
+				cpyrun[i].TxIndex = l.TxIndex
+				cpyrun[i].GasPrice = gasPrice[l.TxHash]
+			}
+			r.pendingLogRunsFeed.Send(cpyrun)
 		}
-		r.pendingLogRunsFeed.Send(cpyrun)
-	}
 	*/
 	return false
 }
