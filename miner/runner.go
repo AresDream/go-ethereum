@@ -224,6 +224,7 @@ func (r *runner) mainLoop() {
 				for _, tx := range ev.Txs {
 					acc, _ := types.Sender(r.current.signer, tx)
 					txs[acc] = append(txs[acc], tx)
+					log.Info("[Runner] tx:", tx.Hash().Hex())
 				}
 				txset := types.NewTransactionsByPriceAndNonce(r.current.signer, txs)
 
