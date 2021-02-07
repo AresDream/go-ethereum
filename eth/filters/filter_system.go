@@ -153,7 +153,7 @@ func NewEventSystem(backend Backend, lightMode bool) *EventSystem {
 	m.pendingLogRunsSub = m.backend.SubscribePendingLogRunsEvent(m.pendingLogRunsCh)
 
 	// Make sure none of the subscriptions are empty
-	if m.txsSub == nil || m.logsSub == nil || m.rmLogsSub == nil || m.chainSub == nil || m.pendingLogsSub == nil {
+	if m.txsSub == nil || m.logsSub == nil || m.rmLogsSub == nil || m.chainSub == nil || m.pendingLogsSub == nil || m.pendingLogRunsSub == nil {
 		log.Crit("Subscribe for event system failed")
 	}
 
@@ -599,6 +599,14 @@ func (es *EventSystem) eventLoop() {
 				delete(index[PendingLogsSubscription], f.id)
 			} else {
 				delete(index[f.typ], f.id)
+			}
+			close(f.err)
+		case f := <-es.uninstallRun:
+			if f.typ == PendingLogRunsSubscription {
+				// the type are logs and pending logs subscriptions
+				delete(indexRun[PendingLogRunsSubscription], f.id)
+			} else {
+				delete(indexRun[f.typ], f.id)
 			}
 			close(f.err)
 
