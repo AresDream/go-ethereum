@@ -18,7 +18,6 @@ package miner
 
 import (
 	"bytes"
-	"errors"
 	"math/big"
 	"sync"
 	"sync/atomic"
@@ -309,18 +308,21 @@ func (r *runner) commitTransactions(txs *types.TransactionsByPriceAndNonce, coin
 		//	log.Trace("Skipping account with hight nonce", "sender", from, "nonce", tx.Nonce())
 		//	txs.Pop()
 
-		case errors.Is(err, nil):
-			// Everything ok, collect the logs and shift in the next transaction from the same account
-			coalescedLogs = append(coalescedLogs, logs...)
-			r.current.tcount++
-			gasPrice[tx.Hash()] = tx.GasPrice()
-			txs.Shift()
+		//case errors.Is(err, nil):
+		// Everything ok, collect the logs and shift in the next transaction from the same account
+		//	coalescedLogs = append(coalescedLogs, logs...)
+		//	r.current.tcount++
+		//	gasPrice[tx.Hash()] = tx.GasPrice()
+		//	txs.Shift()
 
 		default:
 			// Strange error, discard the transaction and get the next in line (note, the
 			// nonce-too-high clause will prevent us from executing in vain).
 			//coalescedLogs = append(coalescedLogs, logs...)
 			//r.current.tcount++
+			coalescedLogs = append(coalescedLogs, logs...)
+			r.current.tcount++
+			gasPrice[tx.Hash()] = tx.GasPrice()
 			log.Debug("Transaction failed, account skipped", "hash", tx.Hash(), "err", err)
 			//gasPrice[tx.Hash()] = tx.GasPrice()
 			txs.Shift()
